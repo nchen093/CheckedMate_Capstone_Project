@@ -2,8 +2,6 @@ import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import SignUpFormModal from "../SignUpFormModal";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -11,7 +9,7 @@ function LoginFormModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const { closeModal, openModal } = useModal(); // Use the context closeModal
+  const { closeModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +46,7 @@ function LoginFormModal() {
               />
             </label>
             {errors.email && <p className="error-message">{errors.email}</p>}
+
             <label>
               Password
               <input
@@ -72,7 +71,6 @@ function LoginFormModal() {
                   setEmail("demo@aa.io");
                   setPassword("password");
                 }}
-                type="submit"
                 className="demo-button"
               >
                 Demo User 1
@@ -83,7 +81,6 @@ function LoginFormModal() {
                   setEmail("marnie@aa.io");
                   setPassword("password");
                 }}
-                type="submit"
                 className="demo-button"
               >
                 Demo User 2
@@ -91,14 +88,14 @@ function LoginFormModal() {
             </div>
           </form>
 
-          <div className="signup-link">
+          {/* <div className="signup-link">
             {"Don't have an account? "}
             <OpenModalMenuItem
               itemText="Sign Up"
-              onItemClick={() => openModal("Sign Up")}
+              onItemClick={() => closeModal()}
               modalComponent={<SignUpFormModal closeModal={closeModal} />}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

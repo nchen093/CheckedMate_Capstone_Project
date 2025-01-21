@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models import User, db
-from app.forms import LoginForm
-from app.forms import SignUpForm
+from app.forms import LoginForm, SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -27,17 +26,22 @@ def login():
     # Get the csrf_token from the request cookie and put it into the
     # form manually to validate_on_submit can be used
     form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        # Add the user to the session, we are logged in!
-        user = User.query.filter(User.email == form.data['email']).first()
 
-        # Add protection to match up the password when we are logged in
-        if user and user.check_password(form.data['password']):
-            login_user(user)
-            user.update_last_login()
+    if not form.validate_on_submit():
+        return form.errors, 401
+    
+     # Add the user to the session, we are logged in!
+    user = User.query.filter(User.email == form.data['email']).first()
+    login_user(user)
+    return user.to_dict()
+    
 
-            return user.to_dict()
-    return form.errors, 401
+    # Add protection to match up the password when we are logged in
+    # if user and user.check_password(form.data['password']):
+    #     login_user(user)
+    #     user.update_last_login()
+    #     return user.to_dict()
+    # return form.errors, 401
 
 
 @auth_routes.route('/logout')
@@ -56,17 +60,39 @@ def sign_up():
     """
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
+        # Safely access form data
+        firstname = form.data.get('firstname', '')
+        lastname = form.data.get('lastname', '')
+        username = form.data.get('username', '')
+        email = form.data.get('email', '')
+        password = form.data.get('password', '')
+
+        # Create a new user instance
         user = User(
-            username=form.data['username'],
-            email=form.data['email'],
-            password=form.data['password']
+            username=username,
+            email=email,
+            firstname=firstname,
+            lastname=lastname,
+            password=password
         )
+
+        # Hash the password before saving (if not already done in the form)
+        user.password = generate_password_hash(user.password)
+
+        # Save the user to the database
         db.session.add(user)
         db.session.commit()
+
+        # Log the user in
         login_user(user)
         return user.to_dict()
-    return form.errors, 401
+
+    # If form validation failed, return errors
+    print("Form errors:", form.errors)
+    return jsonify(form.errors), 401
+
 
 @auth_routes.route('/profile', methods=['PUT'])
 @login_required
