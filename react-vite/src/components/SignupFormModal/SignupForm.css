@@ -27,7 +27,7 @@
   flex-direction: column;
   gap: 10px;
   justify-content: center;
-  align-items: left;
+  align-items: stretch;
 }
 
 .input-container {

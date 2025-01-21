@@ -2,6 +2,8 @@ import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import SignUpFormModal from "../SignupFormModal";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -9,7 +11,12 @@ function LoginFormModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { closeModal } = useModal();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,30 +41,26 @@ function LoginFormModal() {
         <div className="login-container">
           <h1 className="greeting">Welcome Back!</h1>
           <form onSubmit={handleSubmit} className="login-form">
-            <label>
-              Email
-              <input
-                type="text"
-                value={email}
-                placeholder="email"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="login-input"
-              />
-            </label>
+            <input
+              type="text"
+              value={email}
+              placeholder="email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="login-input"
+            />
+
             {errors.email && <p className="error-message">{errors.email}</p>}
 
-            <label>
-              Password
-              <input
-                type="password"
-                value={password}
-                placeholder="password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="login-input"
-              />
-            </label>
+            <input
+              type="password"
+              value={password}
+              placeholder="password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="login-input"
+            />
+
             {errors.password && (
               <p className="error-message">{errors.password}</p>
             )}
@@ -88,16 +91,19 @@ function LoginFormModal() {
             </div>
           </form>
 
-          {/* <div className="signup-link">
+          <div className="signup-link">
             {"Don't have an account? "}
             <OpenModalMenuItem
               itemText="Sign Up"
-              onItemClick={() => closeModal()}
+              onItemClick={() => {
+                openModal;
+              }}
               modalComponent={<SignUpFormModal closeModal={closeModal} />}
             />
-          </div> */}
+          </div>
         </div>
       </div>
+      {isModalOpen && <SignUpFormModal closeModal={closeModal} />}
     </>
   );
 }
