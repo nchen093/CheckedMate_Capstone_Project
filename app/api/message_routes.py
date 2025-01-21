@@ -3,20 +3,20 @@ from flask_login import login_required, current_user
 from app.models import db, Message, User, Friend
 from datetime import datetime
 
-messages_routes = Blueprint("messages", __name__)
+message_routes = Blueprint("messages", __name__)
 
 
 # Route to send a message
-@messages_routes.route("/", methods=["POST"])
+@message_routes.route("/", methods=["POST"])
 @login_required
 def send_message():
     data = request.get_json()
     text_message = data.get("message")
-    friend_id = data.get("receiver_id")  # This is the friend's id, not just any user
+    friend_id = data.get("receiver_id") 
 
     # Validation: Ensure content and recipient_id are provided
     if not text_message or not friend_id:
-        return jsonify({"error": "Content and receiver_id are required."}), 400
+        return jsonify({"error": "text_message and receiver_id are required."}), 400
 
     # Check if the friend relationship exists in either direction
     friend_relationship = Friend.query.filter(
@@ -35,7 +35,7 @@ def send_message():
     if not friend_relationship:
         return jsonify({"error": "Receiver is not your friend."}), 403
 
-    # Create and store the message
+    # Create message and store the message
     new_message = Message(
         text_message=text_message,
         sender_id=current_user.id,
@@ -50,7 +50,7 @@ def send_message():
 
 
 # Route to clear all messages between the current user and a friend
-@messages_routes.route("/clear/<int:friend_id>", methods=["DELETE"])
+@message_routes.route("/clear/<int:friend_id>", methods=["DELETE"])
 @login_required
 def clear_chat_history(friend_id):
     # Check if the friend relationship exists
@@ -58,7 +58,7 @@ def clear_chat_history(friend_id):
         (
             (Friend.user_id == current_user.id)
             & (Friend.friend_id == friend_id)
-            & (Friend.is_accepted == True)
+            & (Friend.accepted == True)
         )
         | (
             (Friend.user_id == friend_id)
@@ -82,7 +82,7 @@ def clear_chat_history(friend_id):
 
 
 # Route to delete a single message
-@messages_routes.route("/<int:message_id>", methods=["DELETE"])
+@message_routes.route("/<int:message_id>", methods=["DELETE"])
 @login_required
 def delete_message(message_id):
     # Query the message by ID
@@ -102,7 +102,7 @@ def delete_message(message_id):
 
 
 # Route to retrieve all messages between the current user and a friend
-@messages_routes.route("/<int:friend_id>", methods=["GET"])
+@message_routes.route("/<int:friend_id>", methods=["GET"])
 @login_required
 def get_messages(friend_id):
     # Check if the friend relationship exists
@@ -110,12 +110,12 @@ def get_messages(friend_id):
         (
             (Friend.user_id == current_user.id)
             & (Friend.friend_id == friend_id)
-            & (Friend.is_accepted == True)
+            & (Friend.accepted == True)
         )
         | (
             (Friend.user_id == friend_id)
             & (Friend.friend_id == current_user.id)
-            & (Friend.is_accepted == True)
+            & (Friend.accepted == True)
         )
     ).first()
     if not friend_relationship:

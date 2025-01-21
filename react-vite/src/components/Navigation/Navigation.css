@@ -1,3 +1,40 @@
 .profile-dropdown {
   position: absolute;
 }
+
+.nav-bar {
+  display: flex;
+  padding: 0px 20px;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: xx-large;
+  color: #43a8f0;
+}
+
+.logged-out-theme-button {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: xx-large;
+  color: #43a8f0;
+  list-style-type: none;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  margin-left: auto;
+  padding: 5px;
+}
+
+img {
+  width: 100px;
+}
