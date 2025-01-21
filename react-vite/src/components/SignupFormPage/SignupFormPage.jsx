@@ -9,8 +9,6 @@ function SignupFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -31,8 +29,6 @@ function SignupFormPage() {
       thunkSignup({
         email,
         username,
-        firstname,
-        lastname,
         password,
       })
     );
@@ -69,28 +65,6 @@ function SignupFormPage() {
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
-        <label>
-          FirstName
-          <input
-            type="text"
-            value={firstname}
-            placeholder="firstname"
-            onChange={(e) => setFirstname(e.target.value)}
-            required
-          />
-        </label>
-        {errors.firstname && <p>{errors.firstname}</p>}
-        <label>
-          LastName
-          <input
-            type="text"
-            value={lastname}
-            placeholder="lastname"
-            onChange={(e) => setLastname(e.target.value)}
-            required
-          />
-        </label>
-        {errors.lastname && <p>{errors.lastname}</p>}
         <label>
           Password
           <input

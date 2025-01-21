@@ -15,8 +15,6 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
-    firstname = db.Column(db.String(50), nullable=False)
-    lastname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
@@ -52,8 +50,6 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'firstname': self.firstname,
-            'lastname': self.lastname,
             'registered_at': self.registered_at,
             'last_logined': self.last_logined,
         }

@@ -29,21 +29,12 @@ def login():
 
     if not form.validate_on_submit():
         return form.errors, 401
-    
-     # Add the user to the session, we are logged in!
-    user = User.query.filter(User.email == form.data['email']).first()
+
+    # Add the user to the session, we are logged in!
+    user = User.query.filter(User.email == form.data["email"]).first()
     login_user(user)
     return user.to_dict()
     
-
-    # Add protection to match up the password when we are logged in
-    # if user and user.check_password(form.data['password']):
-    #     login_user(user)
-    #     user.update_last_login()
-    #     return user.to_dict()
-    # return form.errors, 401
-
-
 @auth_routes.route('/logout')
 def logout():
     """
@@ -59,23 +50,13 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token')
 
-    if form.validate_on_submit():
-        # Safely access form data
-        firstname = form.data.get('firstname', '')
-        lastname = form.data.get('lastname', '')
-        username = form.data.get('username', '')
-        email = form.data.get('email', '')
-        password = form.data.get('password', '')
-
-        # Create a new user instance
+    if form.validate_on_submit():        
         user = User(
-            username=username,
-            email=email,
-            firstname=firstname,
-            lastname=lastname,
-            password=password
+            username=form.data['username'],
+            email=form.data['email'],
+            password=form.data['password'],
         )
 
         # Hash the password before saving (if not already done in the form)
@@ -89,9 +70,9 @@ def sign_up():
         login_user(user)
         return user.to_dict()
 
-    # If form validation failed, return errors
-    print("Form errors:", form.errors)
+    # Return form errors if validation fails
     return jsonify(form.errors), 401
+
 
 
 @auth_routes.route('/profile', methods=['PUT'])
@@ -101,8 +82,6 @@ def update_profile():
     user = current_user
     user.username = data.get('username', user.username)
     user.email = data.get('email', user.email)
-    user.firstname = data.get('firstname', user.firstname)
-    user.lastname = data.get('lastname', user.lastname)
 
     db.session.commit()
     return jsonify(user.to_dict())

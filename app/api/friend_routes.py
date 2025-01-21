@@ -11,8 +11,6 @@ def serialize_friend(user):
         'id': user.id,
         'username': user.username,
         'email': user.email,
-        'firstname': user.firstname,
-        'lastname': user.lastname,
     }
 
 # Send Friend Request
