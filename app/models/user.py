@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime,timezone
 from .friend import Friend
+from .message import Message
 
 
 
@@ -32,7 +33,19 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
     
-    friends = db.relationship('Friend', foreign_keys=[Friend.user_id], back_populates='users' )
+
+    friends = db.relationship('Friend', foreign_keys=[Friend.user_id], 
+                              back_populates='user', cascade="all, delete-orphan",)
+   
+    messages_received = db.relationship('Message', foreign_keys=[Message.receiver_id], 
+                                       back_populates='receiver',  cascade="all, delete-orphan",)
+    
+    messages_sent = db.relationship('Message', foreign_keys=[Message.sender_id], 
+                                    back_populates= 'sender', cascade="all, delete-orphan", )
+    
+    tasks = db.relationship('Task', back_populates='owner', cascade='all, delete-orphan')
+    
+    
 
     def to_dict(self):
         return {
@@ -49,5 +62,6 @@ class User(db.Model, UserMixin):
         self.last_login = datetime.now(timezone.utc)
         db.session.commit()
 
-    friends = db.relationship('Friend', foreign_keys=[Friend.user_id], back_populates='user', cascade="all, delete-orphan",)
+    
+    
 

@@ -1,8 +1,9 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -66,6 +67,38 @@ def sign_up():
         login_user(user)
         return user.to_dict()
     return form.errors, 401
+
+@auth_routes.route('/profile', methods=['PUT'])
+@login_required
+def update_profile():
+    data = request.get_json()
+    user = current_user
+    user.username = data.get('username', user.username)
+    user.email = data.get('email', user.email)
+    user.firstname = data.get('firstname', user.firstname)
+    user.lastname = data.get('lastname', user.lastname)
+
+    db.session.commit()
+    return jsonify(user.to_dict())
+
+@auth_routes.route('/change-password', methods=['POST'])
+@login_required
+def changed_password():
+    data = request.get_json()
+    old_password = data.get('old_password')
+    new_password = data.get('new_password')
+    confirm_password = data.get('confirm_password')
+
+    if new_password != confirm_password:
+        return jsonify({'error': "Password does not match!, Please try again!"}), 400
+    
+    if not check_password_hash(current_user.hashed_password, old_password):
+        return jsonify({'error': 'Wrong passwrod. Try again!'}), 400
+    
+    current_user.hashed_password = generate_password_hash(new_password)
+    db.session.commit()
+
+    return jsonify({'message': 'Password updated successfully.'}), 200
 
 
 @auth_routes.route('/unauthorized')

@@ -1,7 +1,7 @@
-from .db import db, environment, SCHEMA, add_prefix_for_prod, SchemaMixin
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy.orm import relationship
 
-class Friend(db.Model, SchemaMixin):
+class Friend(db.Model):
     __tablename__ = 'friends'
 
     if environment == "production":
@@ -19,8 +19,8 @@ class Friend(db.Model, SchemaMixin):
     is_accepted = db.Column(db.Boolean, default=False)
 
     user = db.relationship('User', foreign_keys=[user_id], back_populates='friends')
-    friend = db.relationship('User', foreign_keys=[user_id])
-
+    friend = db.relationship('User', foreign_keys=[friend_id])
+    
     def to_dict(self):
         return {
             'id': self.id,
@@ -28,3 +28,4 @@ class Friend(db.Model, SchemaMixin):
             'friend_id': self.friend_id,
             'is_accepted': self.is_accepted,
         }
+    
