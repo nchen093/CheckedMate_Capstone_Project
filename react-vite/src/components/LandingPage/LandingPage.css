@@ -1,0 +1,51 @@
+/* Make sure the landingpage-img div covers the entire viewport */
+.landingpage-img {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Style the image to cover the entire area */
+.landingpage-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Place the image behind content */
+}
+
+/* Center the content in the middle of the screen */
+.landingpage-img .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: black;
+}
+
+/* Styling the heading */
+.landingpage-img h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* Styling the button */
+.modal {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+  list-style: none;
+}
+
+.landingpage-img .btn:hover {
+  background-color: #0056b3;
+}

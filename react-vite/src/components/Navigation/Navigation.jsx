@@ -1,10 +1,19 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import ProfileButton from "./ProfileButton";
+import ThemeButton from "../ThemeButton/ThemeButton";
 import "./Navigation.css";
 
 function Navigation() {
   const sessionUser = useSelector((state) => state.session.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionUser) {
+      navigate("/dashboard");
+    }
+  }, [sessionUser, navigate]);
 
   return (
     <div>
@@ -15,33 +24,48 @@ function Navigation() {
           </NavLink>
           <ul className="navbar-links">
             <li>
-              <NavLink activeClassName="active" to="/">
+              <NavLink
+                activeClassName="active"
+                className="links"
+                to="/dashboard"
+              >
                 Dashboard
               </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="active" to="/today">
+              <NavLink activeClassName="active" className="links" to="/today">
                 {"Today's Calendar"}
               </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="active" to="/invitations">
+              <NavLink
+                activeClassName="active"
+                className="links"
+                to="/invitations"
+              >
                 Invitations
               </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="active" to="/friends">
+              <NavLink activeClassName="active" className="links" to="/friends">
                 Friends
               </NavLink>
             </li>
             <li>
-              <NavLink to="/messages" activeClassName="active">
+              <NavLink
+                to="/messages"
+                activeClassName="active"
+                className="links"
+              >
                 Live Chat
               </NavLink>
             </li>
           </ul>
-          <div>
+          <div className="profile-btn">
             <ProfileButton />
+          </div>
+          <div>
+            <ThemeButton className="profile-btn" />
           </div>
         </nav>
       ) : (
@@ -53,7 +77,7 @@ function Navigation() {
               <ProfileButton />
             </li>
             <li>
-              <ProfileButton />
+              <ThemeButton className="profile-btn" />
             </li>
           </ul>
         </div>
