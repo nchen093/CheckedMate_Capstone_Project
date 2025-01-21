@@ -1,0 +1,79 @@
+/* Wrapper for the profile button and dropdown */
+.profile-button-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Profile icon button */
+.profile-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid rgb(173, 167, 167);
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+/* Dropdown menu */
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 100;
+  min-width: 200px;
+  color: #43a8f0;
+  list-style: none;
+}
+
+/* Individual dropdown items */
+.dropdown-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Last item in dropdown (no border) */
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+/* Button styles inside the dropdown */
+.logout-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.logout-button:hover {
+  background-color: #ff3333;
+}
