@@ -6,11 +6,11 @@ from .friends import Friend
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
-        username='Demo', email='demo@aa.io', firstname= 'Demo', lastname='Robert', password='password')
+        username='Demo', email='demo@aa.io', password='password')
     marnie = User(
-        username='marnie', email='marnie@aa.io', firstname= 'Marnie', lastname='Bob',  password='password')
+        username='marnie', email='marnie@aa.io',  password='password')
     bob = User(
-        username='bob', email='bobbie@aa.io', firstname='Bob', lastname='Jefferson', password='password')
+        username='bob', email='bobbie@aa.io', password='password')
 
 
     db.session.add(demo)

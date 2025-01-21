@@ -72,8 +72,6 @@ def search_users():
                 "id": user.id,
                 "username": user.username,
                 "email": user.email,
-                "firstname": user.firstname,
-                "lastname": user.lastname,
                 "isFriend": is_friend is not None,
                 "requestSent": request_sent is not None,
                 "requestReceived": request_received is not None,

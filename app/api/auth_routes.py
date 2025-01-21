@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models import User, db
-from app.forms import LoginForm
-from app.forms import SignUpForm
+from app.forms import LoginForm, SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -27,19 +26,15 @@ def login():
     # Get the csrf_token from the request cookie and put it into the
     # form manually to validate_on_submit can be used
     form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        # Add the user to the session, we are logged in!
-        user = User.query.filter(User.email == form.data['email']).first()
 
-        # Add protection to match up the password when we are logged in
-        if user and user.check_password(form.data['password']):
-            login_user(user)
-            user.update_last_login()
+    if not form.validate_on_submit():
+        return form.errors, 401
 
-            return user.to_dict()
-    return form.errors, 401
-
-
+    # Add the user to the session, we are logged in!
+    user = User.query.filter(User.email == form.data["email"]).first()
+    login_user(user)
+    return user.to_dict()
+    
 @auth_routes.route('/logout')
 def logout():
     """
@@ -55,18 +50,30 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
+    form['csrf_token'].data = request.cookies.get('csrf_token')
+
+    if form.validate_on_submit():        
         user = User(
             username=form.data['username'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
         )
+
+        # Hash the password before saving (if not already done in the form)
+        user.password = generate_password_hash(user.password)
+
+        # Save the user to the database
         db.session.add(user)
         db.session.commit()
+
+        # Log the user in
         login_user(user)
         return user.to_dict()
-    return form.errors, 401
+
+    # Return form errors if validation fails
+    return jsonify(form.errors), 401
+
+
 
 @auth_routes.route('/profile', methods=['PUT'])
 @login_required
@@ -75,8 +82,6 @@ def update_profile():
     user = current_user
     user.username = data.get('username', user.username)
     user.email = data.get('email', user.email)
-    user.firstname = data.get('firstname', user.firstname)
-    user.lastname = data.get('lastname', user.lastname)
 
     db.session.commit()
     return jsonify(user.to_dict())
