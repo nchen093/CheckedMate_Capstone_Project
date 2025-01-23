@@ -1,0 +1,67 @@
+.navbar {
+  background-color: rgb(0, 50, 84);
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Styling the sidebar menu */
+.nav-menu {
+  background-color: #4278b3;
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  left: -250px; /* Initially, sidebar is hidden */
+  top: 0;
+  transition: 0.3s;
+}
+
+.nav-menu.active {
+  left: 0; /* Move sidebar into view when active */
+}
+
+.nav-menu-items {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-item {
+  padding: 15px;
+  border-bottom: 1px solid #444;
+}
+
+.nav-links {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-links:hover {
+  background-color: #575757;
+  padding-left: 10px;
+  transition: 0.2s;
+}
+
+/* Styling the sidebar close button */
+.navbar-toggle {
+  background-color: #333;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.menu-bars {
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* Adding some padding and aligning the icons and text in the sidebar */
+.nav-item .nav-links svg {
+  margin-right: 10px;
+}
