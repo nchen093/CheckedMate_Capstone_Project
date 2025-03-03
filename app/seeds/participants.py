@@ -1,6 +1,7 @@
 
 from app.models import db, Participant, environment, SCHEMA
 
+
 def seed_participants():
     
 

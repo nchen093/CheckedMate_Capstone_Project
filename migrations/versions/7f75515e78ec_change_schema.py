@@ -1,8 +1,8 @@
-"""remove first and lastname feild
+"""change schema
 
-Revision ID: 355f65c6c14e
+Revision ID: 7f75515e78ec
 Revises: 
-Create Date: 2025-01-21 12:16:48.560316
+Create Date: 2025-02-27 13:00:10.227676
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '355f65c6c14e'
+revision = '7f75515e78ec'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,7 +24,6 @@ def upgrade():
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
     sa.Column('registered_at', sa.DateTime(), nullable=True),
-    sa.Column('last_logined', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
@@ -54,8 +53,8 @@ def upgrade():
     sa.Column('title', sa.String(length=255), nullable=False),
     sa.Column('description', sa.Text(), nullable=False),
     sa.Column('progress', sa.Integer(), nullable=False),
-    sa.Column('priority', sa.Enum('Low', 'Medium', 'High', name='priorityenum'), nullable=False),
-    sa.Column('category', sa.Enum('Personal', 'Work', name='categoryenum'), nullable=False),
+    sa.Column('priority', sa.String(length=10), nullable=False),
+    sa.Column('category', sa.String(length=10), nullable=False),
     sa.Column('start_time', sa.DateTime(), nullable=True),
     sa.Column('end_time', sa.DateTime(), nullable=True),
     sa.CheckConstraint('progress >= 0 AND progress <= 100', name='check_progress_range'),
@@ -77,7 +76,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('task_id', sa.Integer(), nullable=True),
-    sa.Column('status', sa.Enum('PENDING', 'ACCEPTED', 'DECLINED', name='statusenum'), nullable=False),
+    sa.Column('status', sa.String(length=10), nullable=False),
     sa.ForeignKeyConstraint(['task_id'], ['tasks.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')

@@ -24,54 +24,19 @@ function Navigation() {
           </NavLink>
           <ul className="navbar-links">
             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "links active" : "links"
-                }
-                to="/dashboard"
-              >
-                Dashboard
-              </NavLink>
+              <NavLink to="/dashboard">Dashboard</NavLink>
             </li>
             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "links active" : "links"
-                }
-                to="/today"
-              >
-                {"Today's Calendar"}
-              </NavLink>
+              <NavLink to="/calendar">{"Today's Calendar"}</NavLink>
             </li>
             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "links active" : "links"
-                }
-                to="/invitations"
-              >
-                Invitations
-              </NavLink>
+              <NavLink to="/invitations">Invitations</NavLink>
             </li>
             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "links active" : "links"
-                }
-                to="/friends"
-              >
-                Friends
-              </NavLink>
+              <NavLink to="/friends">Friends</NavLink>
             </li>
             <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "links active" : "links"
-                }
-                to="/messages"
-              >
-                Live Chat
-              </NavLink>
+              <NavLink to="/messages">Live Chat</NavLink>
             </li>
           </ul>
           <div className="profile-btn">

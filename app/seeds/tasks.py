@@ -1,72 +1,73 @@
-from app.models import db, User,Task, Participant, Friend, PriorityEnum, CategoryEnum, environment, SCHEMA
-from sqlalchemy.sql import text
+from app.models import db, Task, Participant, Friend, environment, SCHEMA
 from datetime import datetime, timedelta
+from sqlalchemy.sql import text
 
-# Add task
+
 def seed_tasks():
-    users = User.query.all()
-    
-    if not users:
-        print("No users available to assign tasks. Please seed users first.")
-        return
-    
+    # Create the events
     task1 = Task(
-        title = 'Complete Back End',
-        description = 'Develop the back end and successfully deploy on Render',
+        title="Finish Backend",
+        description = 'Finish all routes',
         progress = 70,
-        priority=PriorityEnum.High,
-        category=CategoryEnum.Work,
-        start_time=datetime.now() + timedelta(weeks=4),
-        end_time= datetime.now() + timedelta(weeks=4) + timedelta(hours=5),
-        owner_id=users[0].id,
+        priority = 'High',
+        category = 'Work',
+        start_time=datetime.utcnow(),
+        end_time=datetime.utcnow() + timedelta(weeks=4) + timedelta(hours=3),
+        owner_id=1,  
     )
-
     task2 = Task(
-        title = 'Complete Capstone Project',
-        description = 'Develop a 2 full CRUDS and 2 partially CRUDS',
-        progress = 30,
-        priority=PriorityEnum.High,
-        category=CategoryEnum.Work,
-        start_time=datetime.now() + timedelta(weeks=4) + timedelta(days=1),
-        end_time=datetime.now() + timedelta(weeks=4) + timedelta(days=1, hours=3),
-        owner_id=users[1].id
+        title="Finish FrontEnd",
+        description = 'Make sure all features are working at the production',
+        progress = 70,
+        priority = 'High',
+        category = 'Work',
+        start_time=datetime.utcnow() + timedelta(weeks=4),
+        end_time=datetime.utcnow() + timedelta(weeks=4) + timedelta(hours=3),
+        owner_id=1, 
     )
 
+    # Add events to the session
     db.session.add_all([task1, task2])
     db.session.commit()
 
-def add_participants(task_id, participants_id, owner_id):
-    if isinstance(participants_id, int):
-        participants_id = [participants_id]
 
-    for participant_id in participants_id:
-        if are_friends_with_someone_in_task(owner_id, participant_id):
-            new_participant = Participant(task_id=task_id, user_id=participant_id, status='pending')
+def add_participants(event_id, participant_ids, creator_id):
+    # Check if participant_ids is an integer, and convert it to a list
+    if isinstance(participant_ids, int):
+        participant_ids = [participant_ids]
+
+    for participant_id in participant_ids:
+        if are_friends_with_someone_in_event(creator_id, participant_id):
+            new_participant = Participant(
+                task_id=event_id, user_id=participant_id, status="pending"
+            )
             db.session.add(new_participant)
         else:
-         print(f"User {participant_id} is not allowed to join the task.")
-    
-def are_friends_with_someone_in_task(user_id, friend_id):
+            print(f"User {participant_id} is not allowed to join the task.")
+
+
+def are_friends_with_someone_in_event(user_id, friend_id):
+    # Make sure user_id and friend_id are single values
     if isinstance(user_id, list):
         user_id = user_id[0]
     if isinstance(friend_id, list):
         friend_id = friend_id[0]
-        
+
     friendship = Friend.query.filter(
         (Friend.user_id == user_id) & (Friend.friend_id == friend_id)
         | (Friend.user_id == friend_id) & (Friend.friend_id == user_id),
         Friend.accepted == True,
     ).first()
-        
+
     return friendship is not None
-    
+
+
 def undo_tasks():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.tasks RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.events RESTART IDENTITY CASCADE;")
         db.session.execute(
             f"TRUNCATE table {SCHEMA}.participants RESTART IDENTITY CASCADE;"
         )
-        
     else:
         db.session.execute(text("DELETE FROM tasks"))
         db.session.execute(text("DELETE FROM participants"))
