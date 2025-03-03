@@ -124,7 +124,7 @@ const TaskPage = () => {
                       modalComponent={
                         <TaskForm
                           task={task}
-                          formType="Edit"
+                          formType="Edit Task"
                           onModalClose={closeModal}
                         />
                       }
@@ -182,7 +182,7 @@ const TaskPage = () => {
                       modalComponent={
                         <TaskForm
                           task={task}
-                          formType="Edit"
+                          formType="Edit Task"
                           onModalClose={closeModal}
                         />
                       }
@@ -240,7 +240,7 @@ const TaskPage = () => {
                       modalComponent={
                         <TaskForm
                           task={task}
-                          formType="Edit"
+                          formType="Edit Task"
                           onModalClose={closeModal}
                         />
                       }
