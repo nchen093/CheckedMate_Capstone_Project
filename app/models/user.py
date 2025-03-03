@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     registered_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
-    last_logined = db.Column(db.DateTime, default =None)
+
 
     @property
     def password(self):
@@ -51,12 +51,10 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email,
             'registered_at': self.registered_at,
-            'last_logined': self.last_logined,
+    
         }
     
-    def update_last_login(self):
-        self.last_login = datetime.now(timezone.utc)
-        db.session.commit()
+
 
     
     

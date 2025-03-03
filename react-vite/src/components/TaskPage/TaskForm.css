@@ -1,0 +1,110 @@
+/* Container for the Task Form */
+.task-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  width: 450px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: auto;
+  max-width: 100%;
+}
+
+/* Task Title Styling */
+.task-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #3b82f6;
+  text-transform: uppercase;
+}
+
+/* Form styling */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Label styling */
+.label-name {
+  width: 100%;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Input fields styling */
+.task-input {
+  width: 90%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+/* Input fields focus effect */
+.task-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+/* Special styling for textarea */
+textarea.task-input {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Select dropdown styling */
+select.task-input {
+  padding: 10px;
+}
+
+/* Button styling */
+button.edit-button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  width: 50%;
+}
+
+/* Hover effect for the button */
+button.edit-button:hover {
+  background-color: #2563eb;
+}
+
+/* Error message styling */
+.error {
+  font-size: 0.9rem;
+  color: #f87171;
+  margin-top: 5px;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+  .task-container {
+    width: 100%;
+    padding: 30px;
+  }
+
+  .task-title {
+    font-size: 26px;
+  }
+
+  .task-input {
+    width: 100%;
+  }
+}

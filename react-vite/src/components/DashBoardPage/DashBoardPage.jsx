@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import "./DashBoardPage.css";
+import TaskPage from "../TaskPage/TaskPage";
 
 export default function DashboardPage() {
   const [sidebar, setSidebar] = useState(false);
@@ -50,9 +51,8 @@ export default function DashboardPage() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/tasks" className="nav-links">
-              <FaIcons.FaClipboardList />
-              Tasks
+            <Link to="/calendar" className="nav-links">
+              <FaIcons.FaCalendarDay /> Schedule
             </Link>
           </li>
           <li className="nav-item">
@@ -71,6 +71,7 @@ export default function DashboardPage() {
           </li>
         </ul>
       </nav>
+      <TaskPage />
     </>
   );
 }

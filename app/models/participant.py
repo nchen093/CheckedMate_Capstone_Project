@@ -1,12 +1,6 @@
 from .db import db, SCHEMA, environment, add_prefix_for_prod
 from sqlalchemy.orm import relationship
-from sqlalchemy import Enum
-import enum
 
-class StatusEnum(str, enum.Enum):
-    PENDING = "Pending"
-    ACCEPTED = "Accepted"
-    DECLINED = 'Declined'
 
 class Participant(db.Model):
     __tablename__ = "participants"
@@ -17,7 +11,7 @@ class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     task_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('tasks.id')))
-    status= db.Column(Enum(StatusEnum), nullable=False)
+    status= db.Column(db.String(10), nullable=False)
 
     task = db.relationship('Task', back_populates='participants')
     user = db.relationship('User')

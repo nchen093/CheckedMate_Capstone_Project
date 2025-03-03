@@ -5,6 +5,7 @@ import HomePage from "../components/HomePage/HomePage";
 import DashboardPage from "../components/DashBoardPage/DashBoardPage";
 import Layout from "./Layout";
 import ProfilePage from "../components/ProfilePage/ProfilePage";
+import CalendarPage from "../components/CalendarPage/CalendarPage";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "calendar",
+        element: <CalendarPage />,
       },
     ],
   },

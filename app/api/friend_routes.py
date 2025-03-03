@@ -60,7 +60,7 @@ def respond_to_friend_requests(friendship_id):
         return jsonify({"error": "This friend request has already been processed"}), 400
 
     # Process the response
-    if response == "accept":
+    if response == "accepted":
         friendship.is_accepted = True  # Accept the friend request
     elif response == "reject":
         db.session.delete(friendship)  # Reject and delete the friend request
@@ -105,7 +105,7 @@ def get_friends():
                     {**serialize_friend(friend_user), "isRequestSentByYou": False}
                 )
 
-    return jsonify({"accepted": accepted_friends, "pending": pending_requests}), 200
+    return jsonify({"accept": accepted_friends, "pending": pending_requests}), 200
 
 
 # Cancel Friend Request

@@ -1,10 +1,10 @@
+
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .tasks import seed_tasks, undo_tasks
 from .friends import seed_friends, undo_friends
 from .participants import seed_participants, undo_participants
 from .messages import seed_messages, undo_messages
-
 
 from .invitations import seed_invitations, undo_invitations
 from app.models.db import db, environment, SCHEMA
@@ -25,7 +25,7 @@ def seed():
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
         db.session.commit()
         undo_invitations()
-    
+        
 
         undo_messages()
         undo_participants()
@@ -46,6 +46,7 @@ def seed():
 @seed_commands.command("undo")
 def undo():
     undo_invitations()
+  
 
     undo_messages()
     undo_participants()
