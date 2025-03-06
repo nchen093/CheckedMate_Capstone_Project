@@ -1,24 +1,22 @@
+# Use official Python runtime as the base image
 FROM python:3.9.18-alpine3.18
 
-# Install dependencies
-RUN apk add --no-cache build-base postgresql-dev gcc python3-dev musl-dev
+# Install system dependencies needed for building and running the application
+RUN apk add --no-cache build-base \
+    postgresql-dev gcc python3-dev musl-dev libffi-dev openssl-dev
 
-# Set environment variables
-ARG FLASK_APP
-ARG FLASK_ENV
-ARG DATABASE_URL
-ARG SCHEMA
-ARG SECRET_KEY
-
+# Set working directory
 WORKDIR /var/www
 
-# Copy requirements and install dependencies
+# Copy over the requirements.txt file and install dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
-RUN pip install psycopg2
 
-# Copy application code
+# Install dependencies including gevent instead of eventlet
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir psycopg2 
+    
+# Copy the rest of the application code to the container
 COPY . .
 
-# Run migrations and seed data when the container starts
-CMD flask db upgrade && flask seed all && gunicorn --worker-class eventlet -w 1 app:app
+# Command to run Flask migrations and seed data at startup
+CMD flask db upgrade && flask seed all && gunicorn -k gevent --bind 0.0.0.0:$PORT app:app
