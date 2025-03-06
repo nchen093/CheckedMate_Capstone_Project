@@ -1,30 +1,24 @@
-# Use official Python runtime as the base image
 FROM python:3.9.18-alpine3.18
 
-# Set working directory
+RUN apk add build-base
+
+RUN apk add postgresql-dev gcc python3-dev musl-dev
+
+ARG FLASK_APP
+ARG FLASK_ENV
+ARG DATABASE_URL
+ARG SCHEMA
+ARG SECRET_KEY
+
 WORKDIR /var/www
 
-# Install system dependencies (SQLite specific)
-RUN apk add --no-cache libsqlite3
-
-# Copy requirements first for better layer caching
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
+RUN pip install psycopg2
 
-# Copy application code
 COPY . .
 
-# Set environment variables (override .env for container)
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-ENV DATABASE_URL=sqlite:////var/www/instance/prod.db
-ENV SCHEMA=check_mate
-
-# Ensure instance directory exists
-RUN mkdir -p instance
-
-# Command to run Flask migrations and start server
-CMD flask db upgrade && flask seed all && \
-    gunicorn --bind 0.0.0.0:$PORT app:app
+RUN flask db upgrade
+RUN flask seed all
+CMD gunicorn --worker-class eventlet -w 1 app:app
