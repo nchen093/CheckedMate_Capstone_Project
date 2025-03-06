@@ -9,7 +9,7 @@ const EditTaskForm = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task[taskId]);
 
-  console.log("what is the tasks:", tasks);
+  // console.log("what is the tasks:", tasks);
 
   //collect the history data that you create a spot
   useEffect(() => {

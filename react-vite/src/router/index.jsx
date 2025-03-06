@@ -6,6 +6,8 @@ import DashboardPage from "../components/DashBoardPage/DashBoardPage";
 import Layout from "./Layout";
 import ProfilePage from "../components/ProfilePage/ProfilePage";
 import CalendarPage from "../components/CalendarPage/CalendarPage";
+import MessagesPage from "../components/MessagePage/MessagesPage";
+import FriendPage from "../components/FriendPage/FriendsPage";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +36,16 @@ export const router = createBrowserRouter([
       {
         path: "calendar",
         element: <CalendarPage />,
+      },
+
+      {
+        path: "friends",
+        element: <FriendPage />,
+      },
+
+      {
+        path: "messages",
+        element: <MessagesPage />,
       },
     ],
   },

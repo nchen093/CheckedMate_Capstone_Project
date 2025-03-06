@@ -1,25 +1,15 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import ProfileButton from "./ProfileButton";
-import ThemeButton from "../ThemeButton/ThemeButton";
 import "./Navigation.css";
 
 function Navigation() {
   const sessionUser = useSelector((state) => state.session.user);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (sessionUser) {
-      navigate("/dashboard");
-    }
-  }, [sessionUser, navigate]);
-
   return (
     <div>
       {sessionUser ? (
         <nav className="nav-bar">
-          <NavLink className="logo" to="/">
+          <NavLink className="logo" to="/dashboard">
             <img src="/checkmate.ico" alt="logo of a checkmate" /> CheckMate
           </NavLink>
           <ul className="navbar-links">
@@ -29,9 +19,7 @@ function Navigation() {
             <li>
               <NavLink to="/calendar">{"Today's Calendar"}</NavLink>
             </li>
-            <li>
-              <NavLink to="/invitations">Invitations</NavLink>
-            </li>
+
             <li>
               <NavLink to="/friends">Friends</NavLink>
             </li>
@@ -42,9 +30,6 @@ function Navigation() {
           <div className="profile-btn">
             <ProfileButton />
           </div>
-          <div>
-            <ThemeButton className="profile-btn" />
-          </div>
         </nav>
       ) : (
         <div className="logged-out-theme-button">
@@ -54,9 +39,7 @@ function Navigation() {
             <li>
               <ProfileButton />
             </li>
-            <li>
-              <ThemeButton className="profile-btn" />
-            </li>
+            <li></li>
           </ul>
         </div>
       )}

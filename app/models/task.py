@@ -33,13 +33,7 @@ class Task(db.Model):
     start_time = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     end_time = db.Column(db.DateTime, default=None, nullable=True)
 
-
-
     owner = db.relationship('User', back_populates='tasks')
-    participants = db.relationship('Participant', back_populates='task', cascade='all, delete-orphan')
-
-    invitations = db.relationship('Invitation', back_populates='task', cascade='all, delete-orphan')
-
 
 
     def to_dict(self):
@@ -53,8 +47,6 @@ class Task(db.Model):
             'category': self.category,
             'start_time': self.start_time.isoformat() if self.start_time else None,
             'end_time': self.end_time.isoformat() if self.end_time else None,
-            'participants': [participant.to_dict() for participant in self.participants]
-
 
         }
     

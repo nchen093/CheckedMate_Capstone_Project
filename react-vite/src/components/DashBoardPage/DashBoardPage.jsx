@@ -39,7 +39,7 @@ export default function DashboardPage() {
 
           {/* Sidebar Links */}
           <li className="nav-item">
-            <Link to="/" className="nav-links">
+            <Link to="/dashborad" className="nav-links">
               <FaIcons.FaHome />
               DashBoard
             </Link>

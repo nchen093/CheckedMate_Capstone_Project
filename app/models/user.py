@@ -34,6 +34,8 @@ class User(db.Model, UserMixin):
 
     friends = db.relationship('Friend', foreign_keys=[Friend.user_id], 
                               back_populates='user', cascade="all, delete-orphan",)
+    
+    friend_requests = db.relationship('Friend', foreign_keys=[Friend.friend_id], back_populates='friend', cascade="all, delete-orphan")
    
     messages_received = db.relationship('Message', foreign_keys=[Message.receiver_id], 
                                        back_populates='receiver',  cascade="all, delete-orphan",)

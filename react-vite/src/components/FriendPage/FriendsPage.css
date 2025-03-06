@@ -1,0 +1,258 @@
+/* General Styles for the Friends Page */
+.friends-page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.friends-page-heading {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.friends-section {
+  margin-bottom: 30px;
+}
+
+.friends-section-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.friend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friend-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.friend-info {
+  font-size: 16px;
+  color: #333;
+}
+
+.friend-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
+}
+
+.cancel-button {
+  background-color: #ffc107;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #e0a800;
+}
+
+.accept-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.accept-button:hover {
+  background-color: #218838;
+}
+
+.decline-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.decline-button:hover {
+  background-color: #5a6268;
+}
+
+.no-friends-message {
+  font-size: 16px;
+  color: #777;
+  text-align: center;
+}
+
+.error-message {
+  font-size: 16px;
+  color: #dc3545;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  font-size: 20px;
+  text-align: center;
+  color: #777;
+  margin-top: 50px;
+}
+
+/* Search Friend Button */
+.search-friend-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.search-friend-button:hover {
+  background-color: #0056b3;
+}
+
+/* Modals Styles */
+
+/* General Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.modal-heading {
+  font-size: 24px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #007bff;
+}
+
+.close-button:focus {
+  outline: none;
+}
+
+/* Confirmation Modal */
+.confirmation-modal-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.confirmation-modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.confirmation-modal-button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.confirmation-modal-confirm {
+  background-color: #28a745;
+  color: white;
+}
+
+.confirmation-modal-confirm:hover {
+  background-color: #218838;
+}
+
+.confirmation-modal-cancel {
+  background-color: #dc3545;
+  color: white;
+}
+
+.confirmation-modal-cancel:hover {
+  background-color: #c82333;
+}
+
+/* Additional Styles for Modals */
+.search-friend-modal-content {
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.search-friend-modal-header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.search-friend-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-friend-modal-body input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.search-friend-modal-body button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-friend-modal-body button:hover {
+  background-color: #0056b3;
+}

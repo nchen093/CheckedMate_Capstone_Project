@@ -1,67 +1,82 @@
+
 from flask import request, jsonify, Blueprint
 from flask_login import login_required, current_user
 from ..models.db import db
 from ..models.friend import Friend
 from ..models.user import User
 
-friend_routes = Blueprint('friends', __name__)
+friend_routes = Blueprint("friend", __name__)
 
+
+# Helper function to serialize a user object
 def serialize_friend(user):
     return {
-        'id': user.id,
-        'username': user.username,
-        'email': user.email,
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
     }
 
+
 # Send Friend Request
-@friend_routes.route('/request', methods=['POST'])
+@friend_routes.route("/request", methods=["POST"])
 @login_required
 def send_friend_request():
-    friend_id = request.json.get('friend_id')
+    friend_id = request.json.get("friend_id")
     if not friend_id:
-        return jsonify({'error': 'Friend ID is required'}), 400
-    
+        return jsonify({"error": "Friend ID is required"}), 400
+
     if current_user.id == friend_id:
-        return jsonify({'error': 'You are not able to be friend with yourself'}), 400
-    
-    #Check there are any friendship established
-    existing_friendship = Friend.query.filter_by(user_id=current_user.id, friend_id=friend_id).first()
+        return jsonify({"error": "You cannot send a friend request to yourself"}), 400
+
+    # Check if there's an existing friendship
+    existing_friendship = Friend.query.filter_by(
+        user_id=current_user.id, friend_id=friend_id
+    ).first()
 
     if existing_friendship:
-        return jsonify({'error': 'user is already a friend'}), 400
-    
-    #Create Friend request
-    new_friendship = Friend(user_id=current_user.id, friend_id=friend_id, is_accepted=False) 
-    
+        return jsonify(
+            {"error": "Friend request already sent or user is already a friend"}
+        ), 400
+
+    # Create a new friendship request
+    new_friendship = Friend(
+        user_id=current_user.id,
+        friend_id=friend_id,
+        accepted=False,  # False indicates pending
+    )
     db.session.add(new_friendship)
     db.session.commit()
 
+    # Retrieve the friend user data
     friend_user = User.query.get(friend_id)
 
-    return jsonify({'message': 'Friend request is senting', 'friend': serialize_friend(friend_user)}), 201
+    return jsonify(
+        {"message": "Friend request sent", "friend": serialize_friend(friend_user)}
+    ), 201
+
 
 # Respond to Friend Request
-@friend_routes.route('<int:friendship_id>/respond', methods=['POST'])
+@friend_routes.route("/<int:friendship_id>/respond", methods=["POST"])
 @login_required
-def respond_to_friend_requests(friendship_id):
-    response = request.json.get('response')
+def respond_to_friend_request(friendship_id):
+    response = request.json.get("response")
     friendship = (
         Friend.query.filter(Friend.friend_id == current_user.id)
         .filter(Friend.user_id == friendship_id)
         .first()
     )
 
- # Ensure the friendship exists and the current user is the recipient
+    # Ensure the friendship exists and the current user is the recipient
     if not friendship or friendship.friend_id != current_user.id:
         return jsonify({"error": "Friend request not found"}), 404
 
     # Ensure the friendship is still pending (accepted == False)
-    if friendship.is_accepted != False:
+    if friendship.accepted != False:
         return jsonify({"error": "This friend request has already been processed"}), 400
 
     # Process the response
-    if response == "accepted":
-        friendship.is_accepted = True  # Accept the friend request
+    if response == "accept":
+        friendship.accepted = True  # Accept the friend request
     elif response == "reject":
         db.session.delete(friendship)  # Reject and delete the friend request
     else:
@@ -86,7 +101,7 @@ def get_friends():
 
     for f in friendships:
         # Determine whether the current user is the friend or the requester
-        if f.is_accepted == True:  # Friendship accepted
+        if f.accepted == True:  # Friendship accepted
             friend_user = (
                 User.query.get(f.friend_id)
                 if f.user_id == current_user.id
@@ -105,7 +120,7 @@ def get_friends():
                     {**serialize_friend(friend_user), "isRequestSentByYou": False}
                 )
 
-    return jsonify({"accept": accepted_friends, "pending": pending_requests}), 200
+    return jsonify({"accepted": accepted_friends, "pending": pending_requests}), 200
 
 
 # Cancel Friend Request

@@ -8,12 +8,12 @@ from .friends import Friend
 def seed_users():
     demo = User(username="Demo", email="demo@aa.io", password="password")
     marnie = User(username="Marnie", email="marnie@aa.io", password="password")
-    bobbie = User(username="Tom", email="tom@aa.io", password="password")
-    lydia = User(username="Jerry", email="jerry@aa.io", password="password")
+    tom = User(username="Tom", email="tom@aa.io", password="password")
+    jerry = User(username="Jerry", email="jerry@aa.io", password="password")
     db.session.add(demo)
     db.session.add(marnie)
-    db.session.add(bobbie)
-    db.session.add(lydia)
+    db.session.add(tom)
+    db.session.add(jerry)
     db.session.commit()
 
 

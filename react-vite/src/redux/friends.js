@@ -11,6 +11,7 @@ const CLEAR_SEARCH_RESULTS = "friends/CLEAR_SEARCH_RESULTS";
 const SET_EVENT_FRIEND_SEARCH_RESULTS =
   "friends/SET_EVENT_FRIEND_SEARCH_RESULTS";
 const CLEAR_FRIENDS = "friends/CLEAR_FRIENDS";
+
 // Action Creators
 export const fetchFriendsList = (friends) => ({
   type: FETCH_FRIENDS_LIST,
@@ -126,26 +127,6 @@ export const searchUsersThunk = (query) => async (dispatch) => {
     dispatch(setSearchResults(data));
   } catch (error) {
     console.error("Error searching users:", error.message);
-    dispatch(setSearchError(error.message));
-  }
-};
-
-// Search friends specifically for event invitations
-export const searchFriendsForEvent = (query) => async (dispatch) => {
-  try {
-    const response = await fetch(`/api/friends/search?query=${query}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) throw new Error("Failed to fetch search results");
-
-    const data = await response.json();
-    dispatch(setEventFriendSearchResults(data));
-  } catch (error) {
-    console.error("Error searching friends for event:", error.message);
     dispatch(setSearchError(error.message));
   }
 };

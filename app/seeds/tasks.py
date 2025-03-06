@@ -1,4 +1,4 @@
-from app.models import db, Task, Participant, Friend, environment, SCHEMA
+from app.models import db, Task, Friend, environment, SCHEMA
 from datetime import datetime, timedelta
 from sqlalchemy.sql import text
 
@@ -31,21 +31,6 @@ def seed_tasks():
     db.session.commit()
 
 
-def add_participants(event_id, participant_ids, creator_id):
-    # Check if participant_ids is an integer, and convert it to a list
-    if isinstance(participant_ids, int):
-        participant_ids = [participant_ids]
-
-    for participant_id in participant_ids:
-        if are_friends_with_someone_in_event(creator_id, participant_id):
-            new_participant = Participant(
-                task_id=event_id, user_id=participant_id, status="pending"
-            )
-            db.session.add(new_participant)
-        else:
-            print(f"User {participant_id} is not allowed to join the task.")
-
-
 def are_friends_with_someone_in_event(user_id, friend_id):
     # Make sure user_id and friend_id are single values
     if isinstance(user_id, list):
@@ -64,11 +49,8 @@ def are_friends_with_someone_in_event(user_id, friend_id):
 
 def undo_tasks():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.events RESTART IDENTITY CASCADE;")
-        db.session.execute(
-            f"TRUNCATE table {SCHEMA}.participants RESTART IDENTITY CASCADE;"
-        )
+        db.session.execute(f"TRUNCATE table {SCHEMA}.tasks RESTART IDENTITY CASCADE;")
+
     else:
         db.session.execute(text("DELETE FROM tasks"))
-        db.session.execute(text("DELETE FROM participants"))
     db.session.commit()

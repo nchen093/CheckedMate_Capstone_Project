@@ -9,7 +9,6 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.friend_routes import friend_routes
 from .api.task_routes import task_routes
-from .api.invitation_routes import invitation_routes
 from .api.message_routes import message_routes
 from .seeds import seed_commands
 from .config import Config
@@ -39,7 +38,6 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(friend_routes, url_prefix='/api/friends')
 app.register_blueprint(task_routes, url_prefix='/api/tasks')
-app.register_blueprint(invitation_routes, url_prefix='/api/invitations')
 app.register_blueprint(message_routes, url_prefix='/api/messages')
 
 # Database setup

@@ -23,12 +23,12 @@ def send_message():
         (
             (Friend.user_id == current_user.id)
             & (Friend.friend_id == friend_id)
-            & (Friend.is_accepted == True)
+            & (Friend.accepted == True)
         )
         | (
             (Friend.user_id == friend_id)
             & (Friend.friend_id == current_user.id)
-            & (Friend.is_accepted == True)
+            & (Friend.accepted == True)
         )
     ).first()
 
@@ -63,7 +63,7 @@ def clear_chat_history(friend_id):
         | (
             (Friend.user_id == friend_id)
             & (Friend.friend_id == current_user.id)
-            & (Friend.is_accepted == True)
+            & (Friend.accepted == True)
         )
     ).first()
 

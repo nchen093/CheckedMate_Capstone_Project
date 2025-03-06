@@ -1,0 +1,141 @@
+/* Main container */
+.messages-page-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  height: 100vh;
+  background-color: #f4f7fa;
+}
+
+/* Friend list container */
+.friend-list-container {
+  width: 30%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.friend-list-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* List of friends */
+.friend-list-ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.friend-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.friend-list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.friend-list-item-selected {
+  background-color: #d1e7fd;
+  font-weight: bold;
+}
+
+/* Buttons inside the list items */
+.friend-list-item button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.friend-list-item button:hover {
+  background-color: #e64343;
+}
+
+.friend-list-item button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Add Friend Section */
+.friend-list-container div {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.friend-list-container input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 70%;
+}
+
+.friend-list-container button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.friend-list-container button:hover {
+  background-color: #45a049;
+}
+
+.friend-list-container input:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+/* Chat container */
+.chat-container {
+  width: 65%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.chat-container p {
+  font-size: 18px;
+  color: #555;
+}
+
+.chat-container .selected-friend {
+  font-size: 20px;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .messages-page-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .friend-list-container,
+  .chat-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .friend-list-container input {
+    width: 60%;
+  }
+}

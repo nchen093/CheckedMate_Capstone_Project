@@ -3,7 +3,6 @@ const SET_TASKS = "tasks/SET_TASKS";
 const ADD_TASK = "tasks/ADD_TASK";
 const EDIT_TASK = "tasks/EDIT_TASK";
 const DELETE_TASK = "tasks/DELETE_TASK";
-const REMOVE_PARTICIPANT = "tasks/REMOVE_PARTICIPANT";
 const SET_DAY_TASKS = "tasks/SET_DAY_TASKS";
 
 // Action Creators
@@ -28,12 +27,6 @@ const editTaskAction = (task) => ({
 const deleteTaskAction = (taskId) => ({
   type: DELETE_TASK,
   taskId,
-});
-
-const removeParticipantAction = (taskId, participantId) => ({
-  type: REMOVE_PARTICIPANT,
-  taskId,
-  participantId,
 });
 
 // Thunk: Fetch Tasks
@@ -87,17 +80,31 @@ export const fetchTasksForMonth = (year, month) => async (dispatch) => {
       }
     );
 
+    console.log("Response Status:", response.status); // Log the status code for debugging
+
+    if (response.status === 304) {
+      console.log("Data not modified. Using cached data.");
+      return; // Exit early, no need to parse the response body
+    }
+
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => ({})); // Safely parse the error
       throw new Error(
         errorData.error || "Failed to fetch tasks for the selected month"
       );
     }
 
     const data = await response.json();
+    console.log("Data received:", data); // Log the received data
+
+    // Check if the data is in the expected format
+    if (!data || !Array.isArray(data.tasks)) {
+      throw new Error("Invalid tasks data received");
+    }
+
     dispatch(setTasks(data)); // Dispatch the tasks for the selected month
   } catch (error) {
-    console.error("Error fetching tasks for the month:", error);
+    console.error("Error fetching tasks for the month:", error); // Log the error
   }
 };
 
@@ -159,45 +166,6 @@ export const deleteTask = (taskId) => async (dispatch) => {
   }
 };
 
-// Thunk: Send Invitations
-export const sendInvitations = (taskId, inviteeIds) => async () => {
-  const response = await fetch("/api/invitation/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ task_id: taskId, invitee_ids: inviteeIds }),
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    return { message: data.message };
-  } else {
-    const errorData = await response.json();
-    return { error: errorData.error || "Failed to send invitations." };
-  }
-};
-
-// Thunk: Remove Participant
-export const removeParticipant =
-  (taskId, participantId) => async (dispatch) => {
-    const response = await fetch(
-      `/api/tasks/${taskId}/remove-participant/${participantId}`,
-      {
-        method: "DELETE",
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      dispatch(removeParticipantAction(taskId, participantId));
-      return { message: data.message };
-    } else {
-      return { error: data.error || "Failed to remove participant" };
-    }
-  };
-
 // Initial State
 const initialState = [];
 
@@ -218,18 +186,7 @@ export default function tasksReducer(state = initialState, action) {
       );
     case DELETE_TASK:
       return state.filter((task) => task.id !== action.taskId);
-    case REMOVE_PARTICIPANT:
-      return state.map((task) => {
-        if (task.id === action.taskId) {
-          return {
-            ...task,
-            participants: task.participants.filter(
-              (participant) => participant.id !== action.participantId
-            ),
-          };
-        }
-        return task;
-      });
+
     default:
       return state;
   }

@@ -8,11 +8,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import friendsReducer from "./friends";
 import tasksReducer from "./tasks";
+import messagesReducer from "./message";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   friends: friendsReducer,
   tasks: tasksReducer,
+  messages: messagesReducer,
 });
 
 let enhancer;

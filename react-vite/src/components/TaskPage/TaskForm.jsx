@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { createTask, editTask } from "../../redux/tasks";
 import "./TaskForm.css";
 
 const TaskForm = ({ task, formType, onModalClose }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
@@ -20,13 +18,27 @@ const TaskForm = ({ task, formType, onModalClose }) => {
 
   const [errors, setError] = useState({});
 
+  // Helper function to format the date to the correct format
+  const formatDateToLocalString = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+
+    // Return formatted date in the format yyyy-MM-ddThh:mm
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   useEffect(() => {
     if (task) {
       setTitle(task.title || "");
       setDescription(task.description || "");
-      setProgress(task.progress || "");
-      setStart_time(task.start_time || "");
-      setEnd_time(task.end_time || "");
+      setProgress(task.progress || 0);
+      setStart_time(formatDateToLocalString(task.start_time)); // Format start_time
+      setEnd_time(formatDateToLocalString(task.end_time)); // Format end_time
       setCategory(task.category || "");
       setPriority(task.priority || "");
     }
@@ -65,19 +77,18 @@ const TaskForm = ({ task, formType, onModalClose }) => {
       priority,
     };
 
-    let response;
     if (formType === "Edit Task") {
-      response = await dispatch(editTask(task.id, newTask));
+      // Edit the task
+      await dispatch(editTask(task.id, newTask));
     } else if (formType === "Add Task") {
-      response = await dispatch(createTask(newTask));
+      // Create the task
+      await dispatch(createTask(newTask));
     }
 
-    onModalClose();
-    closeModal();
-
-    if (response) {
-      navigate("/dashboard"); // Navigate to tasks list page after successful task creation or editing
+    if (onModalClose) {
+      onModalClose(); // Close the modal after the task is created/edited
     }
+    closeModal(); // Close modal from context
   };
 
   return (
@@ -177,7 +188,7 @@ const TaskForm = ({ task, formType, onModalClose }) => {
           {errors.priority && <span className="error">{errors.priority}</span>}
         </label>
         <button className="edit-button" type="submit">
-          {formType} Task
+          {formType}
         </button>
       </form>
     </div>
