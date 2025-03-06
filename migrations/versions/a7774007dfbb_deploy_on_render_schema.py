@@ -1,8 +1,8 @@
 """deploy on render schema
 
-Revision ID: 77a2036877b9
+Revision ID: a7774007dfbb
 Revises: 
-Create Date: 2025-03-06 12:56:12.757933
+Create Date: 2025-03-06 14:05:41.934558
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '77a2036877b9'
+revision = 'a7774007dfbb'
 down_revision = None
 branch_labels = None
 depends_on = None
