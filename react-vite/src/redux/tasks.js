@@ -39,11 +39,11 @@ export const fetchTasks = () => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log("API Response:", data); // Debugging
+    // console.log("API Response:", data); // Debugging
     dispatch(setTasks(data));
   } else {
     const errorData = await response.json();
-    console.error("API Error:", errorData); // Debugging
+    // console.error("API Error:", errorData); // Debugging
     return { error: errorData.error || "Failed to fetch tasks" };
   }
 };
@@ -80,10 +80,10 @@ export const fetchTasksForMonth = (year, month) => async (dispatch) => {
       }
     );
 
-    console.log("Response Status:", response.status); // Log the status code for debugging
+    // console.log("Response Status:", response.status); // Log the status code for debugging
 
     if (response.status === 304) {
-      console.log("Data not modified. Using cached data.");
+      // console.log("Data not modified. Using cached data.");
       return; // Exit early, no need to parse the response body
     }
 
@@ -95,7 +95,7 @@ export const fetchTasksForMonth = (year, month) => async (dispatch) => {
     }
 
     const data = await response.json();
-    console.log("Data received:", data); // Log the received data
+    // console.log("Data received:", data); // Log the received data
 
     // Check if the data is in the expected format
     if (!data || !Array.isArray(data.tasks)) {
@@ -173,10 +173,10 @@ const initialState = [];
 export default function tasksReducer(state = initialState, action) {
   switch (action.type) {
     case SET_TASKS:
-      console.log("Setting tasks:", action.tasks); // Debugging
+      // console.log("Setting tasks:", action.tasks); // Debugging
       return action.tasks || [];
     case SET_DAY_TASKS:
-      console.log("Setting day tasks:", action.tasks); // Debugging
+      // console.log("Setting day tasks:", action.tasks); // Debugging
       return action.tasks || []; // Replace or merge with existing tasks based on your needs
     case ADD_TASK:
       return [...state, action.task];

@@ -4,10 +4,10 @@ from sqlalchemy.sql import text
 
 
 def seed_friends():
-    print("Seeding friends...")
+    # print("Seeding friends...")
     undo_friends()
     friends_count = db.session.query(Friend).count()
-    print(f"Number of friends before seeding: {friends_count}")
+    # print(f"Number of friends before seeding: {friends_count}")
     friend1 = Friend(user_id=1, friend_id=2, accepted=True)
     friend2 = Friend(user_id=2, friend_id=3, accepted=True)
     friend3 = Friend(user_id=1, friend_id=3, accepted=False)
@@ -16,7 +16,7 @@ def seed_friends():
     db.session.add_all([friend1, friend2, friend3, friend4])
     db.session.commit()
     friends_count_after = db.session.query(Friend).count()
-    print(f"Number of friends after seeding: {friends_count_after}")
+    # print(f"Number of friends after seeding: {friends_count_after}")
 
 
 def undo_friends():
