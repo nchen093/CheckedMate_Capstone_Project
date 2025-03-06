@@ -21,9 +21,12 @@ function ChatPage({ currentUser, friend }) {
   // Listen for incoming messages from Socket.IO
   useEffect(() => {
     if (currentUser) {
-      const newSocket = io("http://localhost:5173", {
-        transports: ["websocket", "polling"],
-      });
+      const newSocket = io(
+        "https://checkedmate-capstone-project.onrender.com",
+        {
+          transports: ["websocket", "polling"],
+        }
+      );
       setSocket(newSocket);
       newSocket.emit("join", { user_id: currentUser.id });
 

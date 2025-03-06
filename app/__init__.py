@@ -15,7 +15,7 @@ from .config import Config
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
 
-app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
+app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
 # Setup login manager
 login = LoginManager(app)
@@ -130,10 +130,3 @@ def handle_private_message(data):
 # Run the Flask app with SocketIO
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0", port=10000)
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def react_root(path):
-    if path == 'favicon.ico':
-        return app.send_from_directory('public', 'favicon.ico')
-    return app.send_static_file('index.html')
