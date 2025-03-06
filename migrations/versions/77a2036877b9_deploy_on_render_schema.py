@@ -1,8 +1,8 @@
-"""update friend modal
+"""deploy on render schema
 
-Revision ID: cd6a70d47372
+Revision ID: 77a2036877b9
 Revises: 
-Create Date: 2025-03-05 17:53:56.604302
+Create Date: 2025-03-06 12:56:12.757933
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cd6a70d47372'
+revision = '77a2036877b9'
 down_revision = None
 branch_labels = None
 depends_on = None

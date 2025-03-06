@@ -1,8 +1,6 @@
 
 from .db import db, SCHEMA, environment, add_prefix_for_prod
-
-# from sqlalchemy.schema import ForeignKey #type: ignore
-from sqlalchemy.orm import relationship  # type: ignore
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 

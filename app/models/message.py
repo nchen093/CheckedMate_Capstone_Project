@@ -1,6 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
+from sqlalchemy.sql import func
 
 class Message(db.Model):
     __tablename__ = "messages"

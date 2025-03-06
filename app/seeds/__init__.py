@@ -32,8 +32,6 @@ def seed():
     seed_users()
     seed_friends()
     seed_tasks()
-
-
     seed_messages()
 
     # Add other seed functions here
@@ -42,9 +40,6 @@ def seed():
 # Creates the `flask seed undo` command
 @seed_commands.command("undo")
 def undo():
-
-  
-
     undo_messages()
     undo_tasks()
     undo_friends()
