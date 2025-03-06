@@ -2,5 +2,16 @@
   "dependencies": {
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.8.1"
-  }
+  },
+  "name": "aa_capstoneproject",
+  "version": "1.0.0",
+  "description": "This is the starter for the Flask React project.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
